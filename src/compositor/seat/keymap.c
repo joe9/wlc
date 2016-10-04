@@ -66,6 +66,9 @@ wlc_keymap_release(struct wlc_keymap *keymap)
    if (keymap->fd >= 0)
       close(keymap->fd);
 
+   if (keymap->context)
+      xkb_context_unref(keymap->context);
+
    *keymap = (struct wlc_keymap){0};
    keymap->fd = -1;
 }
@@ -85,8 +88,9 @@ wlc_keymap(struct wlc_keymap *keymap, const struct xkb_rule_names *names, enum x
    if (!(keymap->keymap = xkb_map_new_from_names(context, names, flags)))
       goto keymap_fail;
 
-   xkb_context_unref(context);
-   context = NULL;
+   keymap->context = context;
+   /*    xkb_context_unref(context); */
+   /*    context = NULL; */
 
    if (!(keymap_str = xkb_map_get_as_string(keymap->keymap)))
       goto string_fail;
@@ -125,7 +129,7 @@ mmap_fail:
    wlc_log(WLC_LOG_WARN, "Failed to mmap keymap");
 fail:
    free(keymap_str);
-   xkb_context_unref(context);
    wlc_keymap_release(keymap);
+   xkb_context_unref(context);
    return NULL;
 }

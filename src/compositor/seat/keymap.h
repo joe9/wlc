@@ -38,6 +38,7 @@ struct wlc_keymap {
    int32_t fd;
    xkb_mod_index_t mods[WLC_MOD_LAST];
    xkb_led_index_t leds[WLC_LED_LAST];
+   struct xkb_context *context;
 };
 
 WLC_NONULL uint32_t wlc_keymap_get_mod_mask(struct wlc_keymap *keymap, uint32_t in);
