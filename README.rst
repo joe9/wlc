@@ -7,6 +7,8 @@
 FEATURES
 --------
 
+THIS IS A FORK OF cloudef/wlc USING SKB TO SUPPORT STICKY KEYS
+
 +------------------+-----------------------+
 | Backends         | DRM, X11              |
 +------------------+-----------------------+
